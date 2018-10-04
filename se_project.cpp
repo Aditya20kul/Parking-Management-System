@@ -1,17 +1,15 @@
 #include<iostream>
 #include<process.h>
 #include<cstdlib>
-#include<cmath>
 #include <ctime>
 #include<string.h>
 #include<fstream>
 #include<cstring>
-
 using namespace std;
 class parking
 {
-   int k,i,j,cnt=0,cnt3=0,s,m,type;
-   char np[51][12],type1[5],numb1[12],name_arr[51][25],no[12],name[12],numb[12],numb2[12],st[51][2],name1[25];
+   int k,i,j,cnt,cnt3,s,m,type;
+   char np[51][12],type1[5],pass[10],numb1[12],name_arr[51][25],no[12],name[12],numb[12],numb2[12],st[51][2],name1[25];
 public:
 //#####################################################################################################################
 new_cust()
@@ -81,6 +79,7 @@ int allot_loc()
                      strcpy(np[o],no);
                      strcpy(st[o],"1");
                      strcpy(name_arr[o],name);
+                     cnt++;
                      return o;
                      break;
                   }
@@ -105,6 +104,12 @@ int allot_loc()
    }
    else
    {
+      if(cnt==0)
+   {
+      cout<<"\n\tOOPS,PARKING LOT IS EMPTY\n";
+   }
+   else
+      {
       cout<<"\n\tPLEASE ENTER THE NUMBER PLATE OF THE CAR WHICH U WANT TO REMOVE FROM THE PARKING LOT:--\n\t";
       cin>>numb1;
       f=find_veh_for_removal();
@@ -130,6 +135,7 @@ int allot_loc()
     }
     tstfile1.close();
 
+   }
    }
    show_menu();
    }
@@ -164,7 +170,13 @@ int allot_loc()
    find_veh_by_num()
    {
       int l=0,var;
-      cout<<"\n\tEnter the valid number\n\t";
+      if(cnt==0)
+      {
+         cout<<"\n\tOOPS, PARKING LOT IS EMPTY\n";
+      }
+      else
+      {
+            cout<<"\n\tEnter the valid number\n\t";
               cin>>numb;
       for(k=1;k<=50;k++)
       {
@@ -183,6 +195,7 @@ int allot_loc()
       if(l==50)
       {
          cout<<"\tINVALID NUMBER\n";
+      }
       }
        show_menu();
    }
@@ -216,7 +229,13 @@ int allot_loc()
    find_veh_by_name()
    {
       int op,cnnt=0;
-      cout<<"\n\tEnter the name of customer\n\t";
+      if(cnt==0)
+      {
+          cout<<"\n\tOOPS, PARKING LOT IS EMPTY\n";
+      }
+      else
+      {
+            cout<<"\n\tEnter the name of customer\n\t";
       cin>>name1;
       for(i=1;i<=50;i++)
       {
@@ -235,18 +254,39 @@ int allot_loc()
       {
             cout<<"\n\tNo vehicle found !\n";
       }
+      }
       show_menu();
 
    }
+   //##########################################################################################
+   warning()
+   {
+      char passin[10];
+      int dec;
+     cout<<"\n\tPLEASE ENTER THE CORRECT PASSWORD FOR QUITING THE PROGRAM--\n\t";
+     cin>>passin;
+      dec=strcmp(passin,pass);
+      if(dec==0)
+      {
+         exit(0);
+      }
+      else
+      {
+         cout<<"\n\tINCORRECT PASSWORD !!\n";
+         show_menu();
+      }
+   }
 
+//#############################################################################################
    void show_menu()
    {
 
       int choice;
       again:
          cout<<"\n\t*****************************************************************************\n";
-          cout<<"\n\t**Enter your choice :--\n\n";
-      cout<<"\t1. Register the new vechicle\n\n\t2. Delete the entry of vechicle\n\n\t3. Find the vechicle by entering its number\n\n\t4. Display the status of parking lot\n\n\t5. Find vehicle by name of owner\n\n\t6. Exit the  program\n\n\t";
+          cout<<"\n\t# Enter your choice :--\n\n\n";
+      cout<<"\t1. Register the new vechicle\n\n\t2. Delete the entry of vechicle\n\n\t3. Find the vechicle by entering its number\n\n\t"
+     <<"4. Display the status of parking lot\n\n\t5. Find vehicle by name of owner\n\n\t6. Exit the  program\n\n\t";
       cin>>choice;
       cout<<"\n\t*****************************************************************************\n\t";
       if(choice==1)
@@ -263,7 +303,8 @@ int allot_loc()
       if(choice==5)
          find_veh_by_name();
       if(choice==6)
-         exit(1);
+         warning();
+         //exit(1);
       if(choice>6||choice<1)
       {
          cout<<"\nPlease provide valid input\n\t";
@@ -277,6 +318,9 @@ int allot_loc()
             strcpy(np[i],"0");
             strcpy(name_arr[i],"0");
             strcpy(st[i],"0");
+            strcpy(pass,"aditya20");
+            cnt=0;
+            cnt3=0;
          }
   }
   display_time_date()
